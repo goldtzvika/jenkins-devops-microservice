@@ -1,11 +1,12 @@
 //DECLERATIVE
 pipeline {
-    agent any
-
+    //agent any
+	agent { docker { image 'maven:3.9.8'}}
     stages {
         stage('Build') {
             steps {
-                echo 'Building...'
+                sh "mvn --version"
+				echo 'Building...'
                 // Your build steps here
             }
         }
