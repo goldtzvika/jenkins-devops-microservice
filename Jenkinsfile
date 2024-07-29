@@ -1,13 +1,15 @@
 pipeline {
-    agent any
-    //agent { docker { image 'maven:3.6.3' } }
+    agent {
+        docker {
+            image 'maven:3.8.8'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
+    }
     stages {
         stage('Build') {
             steps {
-                withEnv(['DOCKER_HOST=tcp://localhost:2375', 'DOCKER_TLS_VERIFY=', 'DOCKER_CERT_PATH=']) {
-                    sh 'docker version'
-                    sh 'docker inspect -f . maven:3.8.8 || docker pull maven:3.8.8'
-                }
+                sh 'docker version'
+                sh 'docker inspect -f . maven:3.8.8 || docker pull maven:3.8.8'
                 sh 'mvn --version'
                 echo 'Building...'
                 // Your build steps here
